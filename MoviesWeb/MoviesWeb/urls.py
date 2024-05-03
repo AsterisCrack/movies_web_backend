@@ -16,7 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView # Esto venia en la practica
+
+from apps.users import views # Importar las vistas de la app users
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('apps/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('apps/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('apps/users/', views.RegistroView.as_view(), name='registro_usuario'),
+    path('apps/users/login/', views.LoginView.as_view(), name='login_usuario'),
+    path('apps/users/me/', views.UsuarioView.as_view(), name='usuario'),
+    path('apps/users/logout/', views.LogoutView.as_view(), name='logout_usuario')
 ]
