@@ -136,3 +136,26 @@ class RegistroUsuarioTest(TestCase):
         }
         response = client.post("/apps/users/", data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class UsuarioViewTest(TestCase):
+    def test_get_user_without_session(self):
+        client = APIClient()
+        response = client.get(
+            "/apps/users/me/"
+        )  # Ruta para obtener información del usuario
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_delete_user_without_session(self):
+        client = APIClient()
+        response = client.delete(
+            "/apps/users/me/"
+        )  # Ruta para eliminar información del usuario
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_handle_exception_object_does_not_exist(self):
+        client = APIClient()
+        response = client.get(
+            "/apps/users/999/"
+        )  # Intenta obtener un usuario inexistente
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
