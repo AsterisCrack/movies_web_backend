@@ -127,6 +127,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.djangoServer
+djangoServer/
 
 # Spyder project settings
 .spyderproject
