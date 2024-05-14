@@ -8,7 +8,7 @@ from .serializers import FilmSerializer, OpinionSerializer
 from rest_framework.authtoken.models import Token
 from apps.users.models import Usuario
 from django.shortcuts import get_object_or_404
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, PermissionDenied
 
 class FilmList(generics.ListAPIView):
     queryset = Film.objects.all()
@@ -45,6 +45,7 @@ class AddOpinionView(generics.CreateAPIView):
         # Actualizar la calificación global de la película
         film.calification = average_calification
         film.save()
+
 
 
 class FilmDetail(generics.RetrieveAPIView):
@@ -91,16 +92,33 @@ class RateFilm(generics.UpdateAPIView):
         # Devolver una respuesta indicando que la calificación se ha actualizado correctamente
         return Response({'message': 'Film calification updated successfully.'}, status=status.HTTP_200_OK)
     
+
 class AddFilmView(generics.CreateAPIView):
     serializer_class = FilmSerializer
 
     def create(self, request, *args, **kwargs):
+        # Verificar si hay una sesión activa
+        token_key = request.COOKIES.get('session')
+        if not token_key:
+            return Response({'error': 'No active session.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Obtener el usuario asociado al token
+        user_token = Token.objects.filter(key=token_key).first()
+        if not user_token:
+            return Response({'error': 'Invalid session token.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Verificar si el usuario tiene permisos de administrador
+        user = get_object_or_404(Usuario, auth_token=user_token)
+        if user.username != "admin":
+            raise PermissionDenied("Only admin can add films.")
+
         # Obtener los datos de la solicitud
         title = request.data.get('title', '')
         description = request.data.get('description', '')
         genre = request.data.get('genre', '')
         director = request.data.get('director', '')
-        calification = request.data.get('calification', None)
+        calification = float(request.data.get('calification', 0))
+        opinions = request.data.get('opinions', [])
 
         # Crear un diccionario con los datos de la película
         film_data = {
@@ -108,7 +126,8 @@ class AddFilmView(generics.CreateAPIView):
             'description': description,
             'genre': genre,
             'director': director,
-            'calification': calification
+            'calification': calification,
+            'opinions': opinions
         }
 
         # Crear el serializador con los datos de la película
@@ -153,6 +172,7 @@ class SearchFilmView(generics.ListAPIView):
 
         return Film.objects.filter(query)
     
+
 class DeleteFilmView(generics.DestroyAPIView):
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
@@ -172,11 +192,24 @@ class DeleteFilmView(generics.DestroyAPIView):
             raise ValidationError({'detail': 'Not found.'})
 
     def delete(self, request, *args, **kwargs):
+        # Verificar si hay una sesión activa
+        token_key = request.COOKIES.get('session')
+        if not token_key:
+            return Response({'error': 'No active session.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Obtener el usuario asociado al token
+        user_token = Token.objects.filter(key=token_key).first()
+        if not user_token:
+            return Response({'error': 'Invalid session token.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Verificar si el usuario tiene permisos de administrador
+        user = get_object_or_404(Usuario, auth_token=user_token)
+        if user.username != "admin":
+            raise PermissionDenied("Only admin can delete films.")
+
         film = self.get_object()
         film.delete()
         return Response({'detail': 'Film deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
-
-    
 
 class ModifyFilmView(generics.UpdateAPIView):
     queryset = Film.objects.all()
@@ -185,9 +218,23 @@ class ModifyFilmView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         
+        # Verificar si hay una sesión activa
+        token_key = request.COOKIES.get('session')
+        if not token_key:
+            return Response({'error': 'No active session.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Obtener el usuario asociado al token
+        user_token = Token.objects.filter(key=token_key).first()
+        if not user_token:
+            return Response({'error': 'Invalid session token.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        # Verificar si el usuario tiene permisos de administrador
+        user = get_object_or_404(Usuario, auth_token=user_token)
+        if user.username != "admin":
+            raise PermissionDenied("Only admin can modify films.")
+
         # Obtener los datos actuales de la película
         current_data = self.get_serializer(instance).data
-        print(current_data)
 
         # Obtener los datos a actualizar de la solicitud
         updated_data = {}
@@ -206,6 +253,7 @@ class ModifyFilmView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
 
 
 
