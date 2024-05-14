@@ -34,4 +34,7 @@ urlpatterns = [
     path('apps/movies/<int:pk>/rate/', movies_views.RateFilm.as_view(), name='rate-film'),
     path('apps/movies/add/', movies_views.AddFilmView.as_view(), name='add-film'),
     path('apps/movies/search/', movies_views.SearchFilmView.as_view(), name='search-film'),
+    path('apps/movies/delete/<int:pk>/', movies_views.DeleteFilmView.as_view(), name='delete-film'),
+    path('apps/movies/update/<int:pk>/', movies_views.ModifyFilmView.as_view(), name='update-film'),
+    path('apps/movies/<int:film_id>/opinions/', movies_views.AddOpinionView.as_view(), name='add_opinion'),
 ]
