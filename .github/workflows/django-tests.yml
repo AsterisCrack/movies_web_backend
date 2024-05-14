@@ -24,4 +24,4 @@ jobs:
 
     - name: Run tests
       run: |
-        python movies_web_backend/MoviesWeb/manage.py test apps.users.tests
+        python MoviesWeb/manage.py test apps.users.tests
