@@ -19,6 +19,7 @@ from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView # Esto venia en la practica
 
 from apps.users import views # Importar las vistas de la app users
+from apps.movies import views as movies_views # Importar las vistas de la app movies
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,5 +28,10 @@ urlpatterns = [
     path('apps/users/', views.RegistroView.as_view(), name='registro_usuario'),
     path('apps/users/login/', views.LoginView.as_view(), name='login_usuario'),
     path('apps/users/me/', views.UsuarioView.as_view(), name='usuario'),
-    path('apps/users/logout/', views.LogoutView.as_view(), name='logout_usuario')
+    path('apps/users/logout/', views.LogoutView.as_view(), name='logout_usuario'),
+    path('apps/movies/', movies_views.FilmList.as_view(), name='film-list'),
+    path('apps/movies/<int:pk>/', movies_views.FilmDetail.as_view(), name='film-detail'),
+    path('apps/movies/<int:pk>/rate/', movies_views.RateFilm.as_view(), name='rate-film'),
+    path('apps/movies/add/', movies_views.AddFilmView.as_view(), name='add-film'),
+    path('apps/movies/search/', movies_views.SearchFilmView.as_view(), name='search-film'),
 ]
