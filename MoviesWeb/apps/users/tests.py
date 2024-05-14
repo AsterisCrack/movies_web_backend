@@ -3,6 +3,7 @@ from django.test import TestCase
 from rest_framework import status, serializers
 from rest_framework.test import APIClient
 from apps.users.serializers import UsuarioSerializer, LoginSerializer
+from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
@@ -159,3 +160,38 @@ class UsuarioViewTest(TestCase):
             "/apps/users/999/"
         )  # Intenta obtener un usuario inexistente
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_get_user_not_found(self):
+        client = APIClient()
+        response = client.get(
+            "/apps/users/me/"
+        )  # Intenta obtener la información de un usuario sin sesión
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class LogoutViewTest(TestCase):
+    def test_logout_with_active_session(self):
+        # Crear un usuario y obtener un token de sesión válido
+        user = User.objects.create(username="testuser")
+        user.set_password("testpassword")
+        user.save()
+        token, created = Token.objects.get_or_create(user=user)
+
+        # Simular una solicitud de logout con el token de sesión válido
+        client = APIClient()
+        client.cookies["session"] = token.key  # Establecer la cookie de sesión válida
+        response = client.delete("/apps/users/logout/")
+
+        # Verificar que la respuesta sea HTTP 204 No Content
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Verificar que en la base de datos el token de sesión fue eliminado
+        self.assertFalse(Token.objects.filter(key=token.key).exists())
+
+    def test_logout_without_active_session(self):
+        # Simular una solicitud de logout sin una sesión activa
+        client = APIClient()
+        response = client.delete("/apps/users/logout/")
+
+        # Verificar que la respuesta sea HTTP 401 Unauthorized
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
