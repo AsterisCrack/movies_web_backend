@@ -8,6 +8,7 @@ from apps.users import (
     serializers,
 )  # Modificado para importar el serializador de la app users
 from drf_spectacular.utils import extend_schema, OpenApiResponse
+import rest_framework.exceptions
 
 
 # Create your views here.
@@ -17,6 +18,7 @@ class RegistroView(generics.CreateAPIView):
     def handle_exception(self, exc):
         if isinstance(exc, IntegrityError):
             return Response({"error": "Used mail"}, status=status.HTTP_409_CONFLICT)
+
         else:
             return super().handle_exception(exc)
 
@@ -57,6 +59,7 @@ class UsuarioView(generics.RetrieveUpdateDestroyAPIView):
             return None
 
     def get(self, request, *args, **kwargs):
+        print(request.COOKIES)
         # Verificar si se proporcionó un token de sesión
         if not self.get_object():
             return Response(

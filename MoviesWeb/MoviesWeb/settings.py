@@ -67,13 +67,28 @@ MIDDLEWARE = [
 
 # Allow all origins (for development only)
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_HTTPONLY = False  # Might not be needed unless you require JavaScript access
+CSRF_COOKIE_SECURE = False
+# Session cookie setup
+SESSION_COOKIE_SAMESITE = None
+SESSION_COOKIE_HTTPONLY = False  # Consider this True for production
+SESSION_COOKIE_SECURE = False  # True if you're using HTTPS
 
-# For production, use the following setting instead:
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',  # React app domain
 ]
+default_headers = (
+    'Content-Type',
+    'X-CSRFToken',
+)
+CORS_ALLOW_HEADERS = default_headers + (
+    'Access-Control-Allow-Credentials',
+)
 
+# Configure session engine
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or other suitable backend
 ROOT_URLCONF = "MoviesWeb.urls"
 
 TEMPLATES = [
