@@ -1,0 +1,53 @@
+POST http://127.0.0.1:8000/apps/users/
+Content-Type: application/json
+
+{
+  "username": "Usuario",
+  "password": "Password123",
+  "nombre": "Adolfo",
+  "tel": "123456789",
+  "email": "test@example.com"
+}
+
+### Login
+POST http://127.0.0.1:8000/apps/users/login/
+Content-Type: application/json
+
+{
+  "username": "Usuario2",
+  "password": "Password123"
+}
+
+### Perfil
+GET http://127.0.0.1:8000/apps/users/me/
+Cookie: session=d0b321f196be74779266241740e3b63829f54e16
+
+### Actualización perfil
+PUT http://127.0.0.1:8000/apps/users/me/
+Content-Type: application/json
+Cookie: session=d0b321f196be74779266241740e3b63829f54e16
+
+{
+  "username": "Usuario2",
+  "nombre": "Adolfo",
+  "tel": "987654321",
+  "email": "test@example.com",
+  "password": "Password123"
+}
+
+### Logout
+DELETE http://127.0.0.1:8000/apps/users/logout/
+Cookie: session=d0b321f196be74779266241740e3b63829f54e16
+
+### Baja
+DELETE http://127.0.0.1:8000/apps/users/me/
+Cookie: session=3c7cd0a434d9185777b4159cd681968619c45c97
+
+### Actualización perfil con PATCH
+PATCH http://127.0.0.1:8000/apps/users/me/
+Content-Type: application/json
+Cookie: session=fcb87a27857e24fa6645b83a196fe810d4723d35
+
+{
+  "nombre": "Nuevo 22"
+}
