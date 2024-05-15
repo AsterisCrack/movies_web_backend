@@ -12,17 +12,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate_password(self, value):
-        valid_password = True
-
-        if (
-            len(value) < 8
-            or not re.search(r"[0-9]", value)
-            or not re.search(r"[A-Z]", value)
-            or not re.search(r"[a-z]", value)
-            or not re.search(r'[!@#$%^&*(),.?":{}|<>]', value)
-        ):
-            valid_password = False
-
+        valid_password = re.match(r'^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{8,}$', value)
         if valid_password:
             return value
         else:
