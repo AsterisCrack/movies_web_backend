@@ -39,7 +39,7 @@ class LoginView(generics.CreateAPIView):
                 value=token.key,
                 secure=True,
                 httponly=True,
-                samesite="lax",
+                samesite="none",
             )
             return response
         else:

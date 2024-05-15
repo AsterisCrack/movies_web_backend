@@ -54,38 +54,21 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware", # Añadimos el middleware de corsheaders
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
+    # Default
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 # Allow all origins (for development only)
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_SAMESITE = None
-CSRF_COOKIE_HTTPONLY = False  # Might not be needed unless you require JavaScript access
-CSRF_COOKIE_SECURE = False
-# Session cookie setup
-SESSION_COOKIE_SAMESITE = None
-SESSION_COOKIE_HTTPONLY = False  # Consider this True for production
-SESSION_COOKIE_SECURE = False  # True if you're using HTTPS
-
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:5173',  # React app domain
-]
-default_headers = (
-    'Content-Type',
-    'X-CSRFToken',
-)
-CORS_ALLOW_HEADERS = default_headers + (
-    'Access-Control-Allow-Credentials',
-)
 
 # Configure session engine
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or other suitable backend
