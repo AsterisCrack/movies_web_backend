@@ -36,6 +36,7 @@ class FilmAPITests(TestCase):
 
         self.film_data = {
             'title': 'Test Film',
+            'link_image': 'https://www.example.com/image.jpg',
             'description': 'This is a test film',
             'genre': 'Test Genre',
             'director': 'Test Director',
@@ -70,6 +71,7 @@ class FilmAPITests(TestCase):
     def test_add_film(self):
         film_data = {
             'title': 'Test Film' + str(Film.objects.count() + 1),
+            'link_image': 'https://www.example.com/image.jpg',
             'description': 'This is a test film',
             'genre': 'Test Genre',
             'director': 'Test Director',
@@ -94,6 +96,7 @@ class FilmAPITests(TestCase):
         # Update film data
         updated_data = {
             'title': 'Updated Title',
+            'link_image': 'https://www.example.com/image.jpg',  # Update link_image
             'description': 'Updated description',
             'genre': 'Updated Genre',
             'director': 'Updated Director',
@@ -118,6 +121,7 @@ class FilmAPITests(TestCase):
         # Check if film data has been updated
         updated_film = Film.objects.get(pk=self.film.pk)
         self.assertEqual(updated_film.title, updated_data['title'])
+        self.assertEqual(updated_film.link_image, updated_data['link_image'])
         self.assertEqual(updated_film.description, updated_data['description'])
         self.assertEqual(updated_film.genre, updated_data['genre'])
         self.assertEqual(updated_film.director, updated_data['director'])

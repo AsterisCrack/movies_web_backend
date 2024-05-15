@@ -3,6 +3,7 @@ from django.db import models
 
 class Film(models.Model):
     title = models.CharField(max_length=100, unique=True)
+    link_image = models.CharField(max_length=500, default='')
     description = models.TextField()
     genre = models.CharField(max_length=50)
     director = models.CharField(max_length=50, default='')

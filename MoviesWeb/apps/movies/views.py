@@ -114,6 +114,7 @@ class AddFilmView(generics.CreateAPIView):
 
         # Obtener los datos de la solicitud
         title = request.data.get('title', '')
+        link_image = request.data.get('link_image', '')
         description = request.data.get('description', '')
         genre = request.data.get('genre', '')
         director = request.data.get('director', '')
@@ -123,6 +124,7 @@ class AddFilmView(generics.CreateAPIView):
         # Crear un diccionario con los datos de la película
         film_data = {
             'title': title,
+            'link_image': link_image,
             'description': description,
             'genre': genre,
             'director': director,

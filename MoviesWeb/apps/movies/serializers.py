@@ -13,7 +13,7 @@ class FilmSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Film
-        fields = ['id', 'title', 'description', 'genre', 'director', 'calification', 'opinions']
+        fields = ['id', 'title', 'link_image','description', 'genre', 'director', 'calification', 'opinions']
 
     def validate_calification(self, value):
         if not (0 <= value <= 10):
