@@ -22,6 +22,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # Asegúrate de tener un archivo requirements.txt con tus dependencias
 
-    - name: Run tests
+    - name: Run users tests
       run: |
         python MoviesWeb/manage.py test apps.users.tests
+
+    - name: Run movies tests
+      run: |
+        python MoviesWeb/manage.py test apps.movies.tests
