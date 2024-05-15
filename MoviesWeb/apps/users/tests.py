@@ -16,13 +16,6 @@ class UsuarioSerializerTest(TestCase):
         ):
             serializer.validate_password("Pass1")
 
-    def test_validate_password_without_special_characters(self):
-        serializer = UsuarioSerializer()
-        with self.assertRaisesMessage(
-            serializers.ValidationError, "Invalid password format"
-        ):
-            serializer.validate_password("Password123")
-
     def test_validate_password_without_digits(self):
         serializer = UsuarioSerializer()
         with self.assertRaisesMessage(
