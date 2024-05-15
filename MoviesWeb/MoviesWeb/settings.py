@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'corsheaders', # Añadimos la app corsheaders para permitir CORS
     'whitenoise.runserver_nostatic',
     'rest_framework',
     'rest_framework.authtoken',
@@ -61,6 +62,16 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware", # Añadimos el middleware de corsheaders
+]
+
+# Allow all origins (for development only)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# For production, use the following setting instead:
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 ROOT_URLCONF = "MoviesWeb.urls"
