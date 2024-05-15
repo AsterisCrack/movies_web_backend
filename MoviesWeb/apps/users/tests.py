@@ -188,3 +188,29 @@ class LogoutViewTest(TestCase):
 
         # Verificar que la respuesta sea HTTP 401 Unauthorized
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class ObtenerUsernameTest(TestCase):
+    def test_obtener_username(self):
+        # Crear un usuario con un ID específico
+        user = User.objects.create(username="testuser")
+        user.save()
+
+        # Simular una solicitud para obtener el username del usuario creado
+        client = APIClient()
+        response = client.get(f"/apps/users/{user.id}/")
+
+        # Verificar que la respuesta sea HTTP 200 OK
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Verificar que el username del usuario sea el esperado
+        self.assertEqual(response.data["username"], user.username)
+
+    def test_obtener_username_usuario_no_encontrado(self):
+        # Simular una solicitud para obtener el username de un usuario inexistente
+        client = APIClient()
+        response = client.get("/apps/users/username/-1/")
+
+        # Verificar que la respuesta sea HTTP 404 Not Found
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
