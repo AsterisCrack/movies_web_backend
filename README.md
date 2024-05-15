@@ -21,5 +21,5 @@ python manage.py test apps.users.tests
 
 For creating an admin user
 ```bash
-python manage.py createsuperuser
+python manage.py createsuperuser --username admin --email admin@email.com
 ```
