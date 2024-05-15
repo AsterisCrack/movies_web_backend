@@ -10,6 +10,8 @@ from apps.users import (
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 import rest_framework.exceptions
 
+from apps.users.models import Usuario
+from rest_framework.views import APIView
 
 # Create your views here.
 class RegistroView(generics.CreateAPIView):
@@ -123,3 +125,12 @@ class LogoutView(generics.DestroyAPIView):
             response.delete_cookie("session")
 
         return response
+
+
+class ObtenerUsername(APIView):
+    def get(self, request, user_id):
+        try:
+            usuario = Usuario.objects.get(id=user_id)
+            return Response({'username': usuario.username}, status=status.HTTP_200_OK)
+        except Usuario.DoesNotExist:
+            return Response({'error': 'El usuario no existe'}, status=status.HTTP_404_NOT_FOUND)

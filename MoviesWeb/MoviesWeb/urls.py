@@ -37,4 +37,5 @@ urlpatterns = [
     path('apps/movies/delete/<int:pk>/', movies_views.DeleteFilmView.as_view(), name='delete-film'),
     path('apps/movies/update/<int:pk>/', movies_views.ModifyFilmView.as_view(), name='update-film'),
     path('apps/movies/<int:film_id>/opinions/', movies_views.AddOpinionView.as_view(), name='add_opinion'),
+    path('apps/users/<int:user_id>/', views.ObtenerUsername.as_view(), name='obtener_username'),
 ]
