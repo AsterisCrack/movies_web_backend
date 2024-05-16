@@ -1,0 +1,603 @@
+openapi: 3.0.3
+info:
+  title: APP para usuarios
+  version: 1.0.0
+  description: APP de usuarios de la web de películas
+paths:
+  /apps/movies/:
+    get:
+      operationId: apps_movies_list
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Film'
+          description: ''
+  /apps/movies/{film_id}/opinions/:
+    post:
+      operationId: apps_movies_opinions_create
+      parameters:
+      - in: path
+        name: film_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Opinion'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Opinion'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Opinion'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Opinion'
+          description: ''
+  /apps/movies/{id}/:
+    get:
+      operationId: apps_movies_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+          description: ''
+  /apps/movies/{id}/rate/:
+    put:
+      operationId: apps_movies_rate_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Film'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+          description: ''
+    patch:
+      operationId: apps_movies_rate_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFilm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFilm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFilm'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+          description: ''
+  /apps/movies/add/:
+    post:
+      operationId: apps_movies_add_create
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Film'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+          description: ''
+  /apps/movies/delete/{id}/:
+    delete:
+      operationId: apps_movies_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /apps/movies/search/:
+    get:
+      operationId: apps_movies_search_list
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Film'
+          description: ''
+  /apps/movies/update/{id}/:
+    put:
+      operationId: apps_movies_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Film'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Film'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+          description: ''
+    patch:
+      operationId: apps_movies_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFilm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFilm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFilm'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+          description: ''
+  /apps/users/:
+    post:
+      operationId: apps_users_create
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+  /apps/users/{user_id}/:
+    get:
+      operationId: apps_users_retrieve
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+  /apps/users/login/:
+    post:
+      operationId: apps_users_login_create
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+  /apps/users/logout/:
+    delete:
+      operationId: apps_users_logout_destroy
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /apps/users/me/:
+    get:
+      operationId: apps_users_me_retrieve
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    put:
+      operationId: apps_users_me_update
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    patch:
+      operationId: apps_users_me_partial_update
+      tags:
+      - apps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUsuario'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+          description: ''
+    delete:
+      operationId: apps_users_me_destroy
+      tags:
+      - apps
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Film:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        link_image:
+          type: string
+          maxLength: 500
+        description:
+          type: string
+        genre:
+          type: string
+          maxLength: 50
+        director:
+          type: string
+          maxLength: 50
+        calification:
+          type: number
+          format: double
+        opinions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opinion'
+          readOnly: true
+      required:
+      - description
+      - genre
+      - id
+      - opinions
+      - title
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+      - password
+      - username
+    Opinion:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        comment:
+          type: string
+        calification:
+          type: number
+          format: double
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - comment
+      - created_at
+      - id
+      - user
+    PatchedFilm:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 100
+        link_image:
+          type: string
+          maxLength: 500
+        description:
+          type: string
+        genre:
+          type: string
+          maxLength: 50
+        director:
+          type: string
+          maxLength: 50
+        calification:
+          type: number
+          format: double
+        opinions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opinion'
+          readOnly: true
+    PatchedUsuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          maxLength: 32
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        nombre:
+          type: string
+          maxLength: 256
+        tel:
+          type: string
+          maxLength: 32
+        email:
+          type: string
+          format: email
+          maxLength: 254
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          maxLength: 32
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        nombre:
+          type: string
+          maxLength: 256
+        tel:
+          type: string
+          maxLength: 32
+        email:
+          type: string
+          format: email
+          maxLength: 254
+      required:
+      - email
+      - id
+      - nombre
+      - password
+      - tel
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
