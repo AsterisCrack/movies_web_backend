@@ -106,6 +106,7 @@ class UsuarioView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LogoutView(generics.DestroyAPIView):
+    serializer_class = serializers.UsuarioSerializer
     def delete(self, request):
         token_key = request.COOKIES.get("session")
 
@@ -128,6 +129,7 @@ class LogoutView(generics.DestroyAPIView):
 
 
 class ObtenerUsername(APIView):
+    serializer_class = serializers.UsuarioSerializer
     def get(self, request, user_id):
         try:
             usuario = Usuario.objects.get(id=user_id)
