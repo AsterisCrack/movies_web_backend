@@ -245,7 +245,11 @@ class ModifyFilmView(generics.UpdateAPIView):
                 updated_data[key] = value
             else:
                 # Si el valor es None, mantener el valor actual de la película
-                updated_data[key] = current_data.get(key)
+                #Si la key es link_image y el valor es '', se asigna un valor por defecto
+                if key == 'link_image' and (current_data.get(key) == '' or current_data.get(key) is None):
+                    updated_data[key] = 'https://www.example.com/default.jpg'
+                else:
+                    updated_data[key] = current_data.get(key)
 
         # Validar que haya al menos un campo en la solicitud
         if not updated_data:

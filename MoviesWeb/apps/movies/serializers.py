@@ -25,6 +25,7 @@ class FilmSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
+        instance.link_image = validated_data.get('link_image', instance.link_image)
         instance.description = validated_data.get('description', instance.description)
         instance.genre = validated_data.get('genre', instance.genre)
         instance.director = validated_data.get('director', instance.director)
